@@ -54,6 +54,7 @@ export default function RootLayout({
               <nav className="flex items-center gap-4">
                 <Link href="/">Home</Link>
                 <Link href="/art">Art</Link>
+                <Link href="/contact">Contact</Link>
               </nav>
 
               <div className="flex lg:hidden">
