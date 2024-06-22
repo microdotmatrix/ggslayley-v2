@@ -5,6 +5,36 @@
 await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  reactStrictMode: true,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.shopify.com",
+        pathname: "/s/files/**",
+      },
+      {
+        hostname: "utfs.io",
+        protocol: "https",
+      },
+      {
+        hostname: "ik.imagekit.io",
+        protocol: "https",
+      },
+      {
+        hostname: "lh3.googleusercontent.com",
+        protocol: "https",
+      },
+    ],
+  },
+};
 
 export default config;

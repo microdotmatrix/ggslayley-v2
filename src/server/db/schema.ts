@@ -6,6 +6,7 @@ import {
   index,
   pgTableCreator,
   serial,
+  text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -16,7 +17,7 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator((name) => `ggslayley_${name}`);
+export const createTable = pgTableCreator((name) => `slx_${name}`);
 
 export const posts = createTable(
   "post",
@@ -30,5 +31,59 @@ export const posts = createTable(
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
-  })
+  }),
 );
+
+export const drawings = createTable("drawing", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 256 }),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  description: text("description"),
+  url: text("url"),
+  uv: text("uv"),
+  productUrl: text("product_url"),
+});
+
+export const paintings = createTable("painting", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 256 }),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  description: text("description"),
+  url: text("url"),
+  uv: text("uv"),
+  productUrl: text("product_url"),
+});
+
+export const digitalArt = createTable("digital", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 256 }),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  description: text("description"),
+  url: text("url"),
+  uv: text("uv"),
+  productUrl: text("product_url"),
+});
+
+export const uvArt = createTable("uv", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 256 }),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  description: text("description"),
+  url: text("url"),
+  uv: text("uv"),
+});
+
+export const customers = createTable("customer", {
+  userId: varchar("user_id", { length: 256 }).primaryKey(),
+  email: varchar("email", { length: 256 }),
+  accessToken: text("access_token"),
+  cartId: varchar("cart_id", { length: 256 }),
+});

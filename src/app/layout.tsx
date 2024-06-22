@@ -1,6 +1,20 @@
+import { Providers } from "@/components/providers";
+import { Icon } from "@/components/ui/icon";
 import "@/styles/globals.css";
 
-import { GeistSans } from "geist/font/sans";
+import {
+  barlow,
+  spaceGrotesk,
+  unisans,
+  blacklisted,
+  lighters,
+  geistSans,
+} from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import { cookies } from "next/headers";
+import Link from "next/link";
+import { Cart } from "@/components/cart";
+import { ThemeSwitcher } from "@/components/ui/theme";
 
 export const metadata = {
   title: "Create T3 App",
@@ -13,9 +27,67 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const accessToken = cookies().get("customerAccessToken");
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={cn(
+        barlow.variable,
+        spaceGrotesk.variable,
+        unisans.variable,
+        blacklisted.variable,
+        lighters.variable,
+        geistSans.variable,
+      )}
+      suppressHydrationWarning
+    >
+      <body>
+        <Providers>
+          <header
+            role="site-header"
+            className="z-60 fixed flex h-32 w-full bg-gradient-to-b from-slate-300 to-transparent dark:from-slate-900"
+          >
+            <section
+              role="site-navigation"
+              className="fixed right-2 top-6 z-50 flex items-center gap-4"
+            >
+              <nav className="flex items-center gap-4">
+                <Link href="/">Home</Link>
+                <Link href="/art">Art</Link>
+              </nav>
+
+              <div className="flex lg:hidden">
+                <span>mobile nav</span>
+              </div>
+
+              {accessToken ? (
+                <Link href="/account">
+                  <Icon icon="carbon:user-avatar-filled" className="size-8" />
+                </Link>
+              ) : (
+                <Link href="/account/login">
+                  <Icon icon="carbon:user-avatar" className="size-8" />
+                </Link>
+              )}
+              <Cart />
+              <ThemeSwitcher />
+            </section>
+          </header>
+          <main className="flex w-full flex-1 flex-col justify-start py-24">
+            {children}
+          </main>
+          <footer>
+            <div className="flex flex-col items-center justify-center gap-4 p-8">
+              <p className="flex items-center gap-2 text-center">
+                <Icon icon="mdi:copyright" className="size-4" />{" "}
+                <span className="text-xs">
+                  {new Date().getFullYear()} Slayley.com
+                </span>
+              </p>
+            </div>
+          </footer>
+        </Providers>
+      </body>
     </html>
   );
 }
